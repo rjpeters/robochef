@@ -43,8 +43,9 @@ def recommend(inputlist, random_rec = True, recipe = False):
             index = random.randint(0, len(names))
             url = urls[index]
             name = names[index]
+            site = url.split('.')[1]
             recommendation = f"[{name}]({url})"
-            return recommendation
+            return (recommendation, len(names), site)
 
 
     # Deal with the first ingredient directly from the matrix
@@ -98,12 +99,11 @@ def recommend(inputlist, random_rec = True, recipe = False):
     # Recommend a recipe containing the ingredients
     elif recipe == True:
         indexoptions = list(options.index)
-
         chosenindex = random.randint(0, len(options)-1)
-        recipe = indexoptions[chosenindex]
-        url = urls[recipe]
+        myrecipe = indexoptions[chosenindex]
+        url = urls[myrecipe]
         site = url.split('.')[1]
-        name = names[recipe]
+        name = names[myrecipe]
         recommendation = f"[{name}]({url})"
         return (recommendation, len(indexoptions), site)
         # This returns a tuple, with item 0 being the recipe, 
@@ -194,6 +194,9 @@ with col2:
 with col3:
     rec = st.button("Recommend recipe", type = 'primary')
     if rec:
+
+        recipe = recommend(get_data(), recipe = True)
+        print(recipe)
         try:
             recipe = recommend(get_data(), recipe = True)
             st.write(recipe[0])
@@ -208,8 +211,6 @@ col1, col2, col3 = st.columns(3)
 with col2:
     st.write("You entered: ")
     for i in range(len(get_data())): 
-        print(f"index {i}")
-        print(f"length of get_data: {len(get_data())}")
         try:
             ingredient = get_data()[i]
         
