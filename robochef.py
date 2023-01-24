@@ -142,9 +142,17 @@ with st.form("ingr_input"):
             pass
         else: 
             result = Word(text).correct()
-            if result not in get_masterlist():
+
+            #Scenario 1: the input ingredient is in the masterlist.
+            if result.lower() in get_masterlist():
+                get_data().append(result.lower())
+            else:
+                #Try to lemmatize
                 newresult = lemmatizer().lemmatize(result)
-                if newresult not in get_masterlist():
+                if newresult in get_masterlist():
+                    get_data().append(newresult.lower())
+                else:
+                #Scenario 2: lemmatization does not work
                     try: 
                         for item in get_masterlist():
                             if newresult in item:
@@ -153,10 +161,6 @@ with st.form("ingr_input"):
                                 break
                     except:
                         st.write("Unknown ingredient")
-
-                else: get_data().append(newresult.lower())
-            else: 
-                get_data().append(result.lower())
 
 
 
