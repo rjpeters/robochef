@@ -143,25 +143,29 @@ with st.form("ingr_input"):
         else: 
             result = Word(text).correct()
 
-            #Scenario 1: the input ingredient is in the masterlist.
             if result.lower() in get_masterlist():
                 get_data().append(result.lower())
-            else:
-                #Try to lemmatize
-                newresult = lemmatizer().lemmatize(result)
-                if newresult in get_masterlist():
-                    get_data().append(newresult.lower())
-                else:
-                #Scenario 2: lemmatization does not work
-                    try: 
-                        for item in get_masterlist():
-                            if newresult in item:
-                                st.write(f"Expanded {newresult} to {item}")
-                                get_data().append(item)
-                                break
-                    except:
-                        st.write("Unknown ingredient")
 
+            else:
+                st.write("Ingredient not recognized. Please try again.") 
+
+#               Legacy code, that would try to fix faulty input by guessing what you might have meant.
+#                    #Try to lemmatize
+#                    newresult = lemmatizer().lemmatize(result)
+#                    if newresult in get_masterlist():
+#                        get_data().append(newresult.lower())
+#                    else:
+#                    #Scenario 2: lemmatization does not work
+#                        try: 
+#                            for item in get_masterlist():
+#                                if newresult in item:
+#                                    st.write(f"Expanded {newresult} to {item}")
+#                                    get_data().append(item)
+#                                    break
+#                        except:
+#                            st.write("Unknown ingredient")
+#            except: 
+#                st.write("Ingredient not recognized. Please try again.")
 
 
 
