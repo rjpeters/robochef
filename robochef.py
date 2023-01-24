@@ -203,8 +203,6 @@ with col3:
     rec = st.button("Recommend recipe", type = 'primary')
     if rec:
 
-        recipe = recommend(get_data(), recipe = True)
-        print(recipe)
         try:
             recipe = recommend(get_data(), recipe = True)
             st.write(recipe[0])
